@@ -94,21 +94,4 @@ def load_hilton():
 
 load_hilton()
 
-for i in city_list:
-    print(i)
-    get_code(i)
-
-
-
-ctyhocn_list = {}
-ctyhocn = []
-def load_hilton():
-    threads = []
-    for i in city_list:
-        a = threading.Thread(target=get_ctghocn, args=(i,))
-        threads.append(a)
-        a.start()
-    for t in threads:
-        t.join()
-    print('Load ALL')
-    
+# SELECT * FROM HILTON WHERE NAME LIKE "shanghai%"
