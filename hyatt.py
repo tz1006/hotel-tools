@@ -7,8 +7,8 @@ header = {'User-Agent':ua}
 
 
 location = 'shanghai'
-checkinDate='2017-12-19'
-checkoutDate='2017-12-20'
+checkinDate='2017-12-25'
+checkoutDate='2017-12-26'
 
 def hyatt_city(location, checkinDate, checkoutDate):
     url = "https://www.hyatt.com/zh-CN/search/shanghai?location=%s&checkinDate=%s&checkoutDate=%s" % (location, checkinDate, checkoutDate)
@@ -17,11 +17,17 @@ def hyatt_city(location, checkinDate, checkoutDate):
     source = soup.select('div.p-hotel-card')
     print(len(source))
     for i in range(len(source)):
-        name = soup.select('div.p-hotel-card')[i].select('div.hotel-name')[0].text
+        name = source[i].select('div.hotel-name')[0].text
+        address = source[i].select('div.hotel-address')[0].div.text
+        if source[i].select('em') == []:
+            price = source[i].select('div.rate')[0].text.strip()
+            href = source[i].select('a.button-shop')[0].get('href')
+            code = href.split('?')[0].split('/')[2]
+        else:
+            price = '即将推出'
+            code = None
         print(name)
-        address = soup.select('div.p-hotel-card')[i].select('div.address-line1')[0].text
-        price = soup.select('div.p-hotel-card')[i].select('div.rate')[0].text.strip()
-        print(name)
+        print(code)
         print(address)
         print(price)
         print('--------------------------------')
