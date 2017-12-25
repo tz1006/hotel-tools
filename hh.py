@@ -124,7 +124,7 @@ def get_price(code):
     ua = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2227.1 Safari/537.36'
     header = {'User-Agent':ua}
     print(url)
-    html = requests.get(url, headers = header).content
+    html = s.get(url, headers = header).content
     hilton_soup = BeautifulSoup(html, "html.parser")
     source = hilton_soup.select('td.priceOrAvailability')
     for x in range(len(source)):
@@ -133,15 +133,6 @@ def get_price(code):
             price = source[x].strong.text
             update_data('HH', 'PRICE', code, key, price)
             print(key, price)
-
-
-
-
-
-
-
-
-
 
 
 delete_form('HH', 'PRICE')
