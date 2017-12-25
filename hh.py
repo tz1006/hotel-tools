@@ -118,10 +118,11 @@ def get_code_list():
     print('Finish!')
 
 def get_price(code):
-    globals()[code] = {}
+    s = requests.session()
+    s.keep_alive = False
     url = 'https://secure3.hilton.com/zh_CN/hi/reservation/book.htm?ctyhocn=%s&arrivalDate=%s&departureDate=%s&hhonorsRate=false&numberOfRooms=1&inputModule=HOTEL_SEARCH&internalDeepLinking=true&toAvailCalendar=true' % (code, arrivalDate, departureDate)
-    ua_mo = 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_1_1 like Mac OS X) AppleWebKit/604.3.5 (KHTML, like Gecko) Version/11.0 Mobile/15B150 Safari/604.1'
-    header = {'User-Agent':ua_mo}
+    ua = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2227.1 Safari/537.36'
+    header = {'User-Agent':ua}
     print(url)
     html = requests.get(url, headers = header).content
     hilton_soup = BeautifulSoup(html, "html.parser")
