@@ -3,7 +3,8 @@
 import requests
 import sqlite3
 from bs4 import BeautifulSoup
-from datetime import date
+from datetime import datetime, timedelta
+from pytz import timezone
 
 ###############################
 city_list = ['anshun', 'aomen', 'beijing', 'benxi', 'changzhou', 'chongqing', 'dandong', 'dalian', 'fuzhou', 'foshan', 'guiyang', 'guangzhou', 'geermu', 'huizhou', 'hangzhou', 'hefei', 'haikou', 'jiaxing', 'jiuzhaigou', 'jilin', 'jinan', 'linzhi', 'lijiang', 'ningbo', 'putian', 'qingdao', 'quanzhou', 'sanqingshan', 'shiyan', 'suzhou', 'shanghai', 'shenzhen', 'suzhou', 'shengyang', 'shijiazhang', 'sanya', 'tianjin', 'urumqi', 'wuxi', 'wuhu', 'wencheng', 'wuhan', 'HongKong', 'xian', 'xishuangbanna', 'xianggelila', 'xiamen', 'yantai', 'yuxi', 'zhoushan', 'zhongshan', 'zhengzhou', 'zhuzhou']
@@ -57,10 +58,13 @@ def update_data(dbname, formname, code, key, value):
     conn.commit()
     conn.close()
 
-def get_date():
-    global arrivalDate
-    global departureDate
-    today = date.today()
+def get_date(day=0):
+    now = datetime.now(timezone('Asia/Shanghai'))
+    delta = timedelta(days=day)
+    date = (now + delta).strftime('%Y-%m-%d %H:%M:%S')  
+    return(date)
+    
+    
     arrivalDate = '%s-%s-%s' % (today.year, today.month, today.day)
     departureDate = '%s-%s-%s' % (today.year, today.month, today.day+1)
 
