@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*- 
+# filename: hiltoncode.py
 
 import requests
 import sqlite3
@@ -7,6 +8,8 @@ from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 from pytz import timezone
 import threading
+import os
+#from usproxy import proxypool as pp
 
 ###############################
 city_list = ['anshun', 'aomen', 'beijing', 'benxi', 'changzhou', 'chongqing', 'dandong', 'dalian', 'fuzhou', 'foshan', 'guiyang', 'guangzhou', 'geermu', 'huizhou', 'hangzhou', 'hefei', 'haikou', 'jiaxing', 'jiuzhaigou', 'jilin', 'jinan', 'linzhi', 'lijiang', 'ningbo', 'putian', 'qingdao', 'quanzhou', 'sanqingshan', 'shiyan', 'suzhou', 'shanghai', 'shenzhen', 'suzhou', 'shengyang', 'shijiazhang', 'sanya', 'tianjin', 'urumqi', 'wuxi', 'wuhu', 'wencheng', 'wuhan', 'HongKong', 'xian', 'xishuangbanna', 'xianggelila', 'xiamen', 'yantai', 'yuxi', 'zhoushan', 'zhongshan', 'zhengzhou', 'zhuzhou']
@@ -17,15 +20,18 @@ if __name__ != '__main__':
 #############################
 # Sqlite3
 def delete_form(dbname, formname):
+    if os.path.exists('database') == False:
+        os.makedirs('database')
     conn = sqlite3.connect('database/%s.db' % dbname)
     c = conn.cursor()
     c.execute("DROP TABLE IF EXISTS %s;" % formname)
     conn.commit()
     conn.close()
-    print("Form %s Deleted!" % formname)
+    #print("Form %s Deleted!" % formname)
 
 # 创建表
 def create_form(dbname, formname):
+    delete_form(dbname, formname)
     day0 = '\'%s\'' % get_date(0)
     day1 = '\'%s\'' % get_date(1)
     day2 = '\'%s\'' % get_date(2)
@@ -110,8 +116,10 @@ def get_code(city):
         url = 'http://www.hilton.com.cn/zh-cn/city/%s-hotels.html' % city
         r = None
         while r == None:
-            r = s.get(url, timeout=7, allow_redirects=False)
-        print(r.status_code)
+            try:
+                r = s.get(url, timeout=2, allow_redirects=False)
+            except:
+                print('Fail %s' % c)
         html = r.content
         hilton_soup = BeautifulSoup(html, "html.parser")
         source = hilton_soup.select('div.computer')
@@ -124,7 +132,7 @@ def get_code(city):
                 ctyhocn_code = '未开业'
             insert_name('hilton', 'PRICE', name, ctyhocn_code)
             insert_name('hilton', 'POINTS', name, ctyhocn_code)
-        print(len(source))
+    #print(city)
 
 def get_code_list(dbname):
     global code_list
