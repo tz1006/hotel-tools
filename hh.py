@@ -1,4 +1,5 @@
-# !/Python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*- 
 
 import requests
 import sqlite3
@@ -20,26 +21,41 @@ def delete_form(dbname, formname):
     print("Form %s Deleted!" % formname)
 
 def create_form(dbname, formname):
+    day0 = get_date(0)
+    day1 = get_date(1)
+    day2 = get_date(2)
+    day3 = get_date(3)
+    day4 = get_date(4)
+    day5 = get_date(5)
+    day6 = get_date(6)
+    day7 = get_date(7)
+    day8 = get_date(8)
+    day9 = get_date(9)
+    day10 = get_date(10)
+    day11 = get_date(11)
+    day12 = get_date(12)
+    day13 = get_date(13)
+    day14 = get_date(14)
     conn = sqlite3.connect('database/%s.db' % dbname)
     c = conn.cursor()
     c.execute('''CREATE TABLE IF NOT EXISTS %s
         (NAME TEXT PRIMARY KEY UNIQUE,
         CODE   TEXT,
-        DAY0  TEXT,
-        DAY1  TEXT,
-        DAY2  TEXT,
-        DAY3  TEXT,
-        DAY4  TEXT,
-        DAY5  TEXT,
-        DAY6  TEXT,
-        DAY7  TEXT,
-        DAY8  TEXT,
-        DAY9  TEXT,
-        DAY10  TEXT,
-        DAY11  TEXT,
-        DAY12  TEXT,
-        DAY13  TEXT,
-        DAY14  TEXT);''' % formname)
+        %s  TEXT,
+        %s  TEXT,
+        %s  TEXT,
+        %s  TEXT,
+        %s  TEXT,
+        %s  TEXT,
+        %s  TEXT,
+        %s  TEXT,
+        %s  TEXT,
+        %s  TEXT,
+        %s  TEXT,
+        %s  TEXT,
+        %s  TEXT,
+        %s  TEXT,
+        %s  TEXT);''' % (formname, day0, day1, day2, day3, day4, day5, day6, day7, day8, day9, day10, day11, day12, day13, day14))
     conn.commit()
     conn.close()
     print("Form %s Created!" % formname)
@@ -61,7 +77,7 @@ def update_data(dbname, formname, code, key, value):
 def get_date(day=0):
     now = datetime.now(timezone('Asia/Shanghai'))
     delta = timedelta(days=day)
-    date = (now + delta).strftime('%Y-%m-%d %H:%M:%S')  
+    date = (now + delta).strftime('%Y-%m-%d')  
     return(date)
     
     
@@ -124,6 +140,8 @@ def get_code_list():
 def get_price(code):
     s = requests.session()
     s.keep_alive = False
+    arrivalDate = get_date(0)
+    departureDate = get_date(1)
     url = 'https://secure3.hilton.com/zh_CN/hi/reservation/book.htm?ctyhocn=%s&arrivalDate=%s&departureDate=%s&hhonorsRate=false&numberOfRooms=1&inputModule=HOTEL_SEARCH&internalDeepLinking=true&toAvailCalendar=true' % (code, arrivalDate, departureDate)
     ua = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2227.1 Safari/537.36'
     header = {'User-Agent':ua}
