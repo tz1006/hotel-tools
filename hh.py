@@ -68,6 +68,7 @@ def insert_name(dbname, formname, name, code):
     conn.close()
 
 def update_data(dbname, formname, code, key, value):
+    key = '\'%s\'' % key
     conn = sqlite3.connect('database/%s.db' % dbname)
     c = conn.cursor()
     c.execute("UPDATE %s set %s=? where CODE=?" % (formname, key), (value,code))
