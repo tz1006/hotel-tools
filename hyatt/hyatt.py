@@ -3,6 +3,7 @@
 # -*- coding: UTF-8 -*- 
 # filename: hiltoncode.py
 
+import time
 import requests
 from datetime import datetime, timedelta
 from bs4 import BeautifulSoup
@@ -103,6 +104,7 @@ for i in l:
         print(price, name)
     except:
         print('None', name)
+    time.sleep(10)
 
  
 
