@@ -146,3 +146,4 @@ class webdriver():
 
 #driver.delete_driver()
 #dd = driver.get_page(ip)
+# https://www.hyatt.com/zh-CN/shop/rates/guihr?rooms=1&adults=1&checkinDate=2019-05-16&checkoutDate=2019-05-19&kids=0&offercode=CUP19&rateFilter=standard
