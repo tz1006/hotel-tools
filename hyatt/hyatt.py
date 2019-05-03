@@ -9,11 +9,17 @@ from selenium import webdriver
 from bs4 import BeautifulSoup
 from urllib.parse import urlencode
 
+from selenium.webdriver import Chrome
+from selenium.webdriver import ChromeOptions
 
-driver = webdriver.Chrome('./chromedriver')
+option = ChromeOptions()
+option.add_experimental_option('excludeSwitches', ['enable-automation'])
+driver = Chrome('./chromedriver', options=option)
+
+#driver = webdriver.Chrome('./chromedriver')
 driver.set_window_size(800, 900)
-js = r"Object.defineProperty(navigator, 'webdriver', {get: () => undefined,});"                           
-driver.execute_script(js)
+#js = r"Object.defineProperty(navigator, 'webdriver', {get: () => undefined,});"                           
+#driver.execute_script(js)
 
 
 
@@ -88,36 +94,25 @@ def quote_price(hotel_code, date, promo=False):
     driver.get(url)
     html = driver.page_source
     soup = BeautifulSoup(html, "html.parser")
-    return soup
-    lowest_price = soup.find_all('div', attrs={'class':'b-text_weight-bold rate-pricing'})[0]
+    lowest_price_soup = soup.find_all('div', attrs={'class':'b-text_weight-bold rate-pricing'})[0]
+    lowest_price = lowest_price_soup.span.get('data-price')
     return lowest_price
-               
-               
-               
-    rooms=1&adults=1&checkinDate=2019-05-15&checkoutDate=2019-05-16&kids=0&offercode=CUP19&rateFilter=standard
+
+
 
 
 l = cn_hotels_list()
 
-a = quote_price('jjnye','2019-05-16')
+for i in l:
+    name = i['name']
+    code = i['code']
+    try:
+        price = quote_price(code, '2019-05-08', promo=True)
+        print(price, name)
+    except:
+        print('None', name)
+
+ 
 
 
-# test
-headers = {'user-agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Mobile Safari/537.36',
-           'referer': 'https://www.hyatt.com/zh-CN/shop/rates/czxrz?rooms=1&adults=1&checkinDate=2019-05-16&checkoutDate=2019-05-17&kids=0&offercode=&rateFilter=standard'
-          }
-
-url = 'https://www.hyatt.com/zh-CN/shop/rates/czxrz?rooms=1&adults=1&checkinDate=2019-05-16&checkoutDate=2019-05-17&kids=0&offercode=&rateFilter=standard'
-
-url = 'https://www.hyatt.com/zh-CN/shop/rates/czxrz?rooms=1&adults=1&checkinDate=2019-05-16&checkoutDate=2019-05-17&kids=0&offercode=&rateFilter=standard'
-
-
-with requests.session() as s:
-    rr = s.get(url, headers=headers)
-    rr = s.get(url, headers=headers)
-
-print(rr.status_code)
-
-
-
-
+#a = quote_price('jjnye','2019-05-16')
