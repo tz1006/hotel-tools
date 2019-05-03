@@ -1,4 +1,3 @@
-
 #!/usr/bin/python
 # -*- coding: UTF-8 -*- 
 # filename: hiltoncode.py
@@ -111,3 +110,5 @@ for i in l:
 
 
 #a = quote_price('jjnye','2019-05-16')
+
+# https://www.hyatt.com/zh-CN/explore-hotels/partial?regionGroup=5-Asia&categories=&brands=
