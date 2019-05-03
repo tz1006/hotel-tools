@@ -6,6 +6,12 @@
 from selenium.webdriver import Chrome
 from selenium.webdriver import ChromeOptions
 
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+
+import time
 import string
 import zipfile
  
@@ -123,14 +129,19 @@ class webdriver():
         self.driver.set_window_size(800, 900)
         self.count = 0
     def delete_driver(self):
-        self.driver.exit()
+        self.driver.quit()
+        self.create_driver()
+        print('重启浏览器')
     def get_page(self, url):
         self.driver.get(url)
+        WebDriverWait(self.driver, 4).until(EC.presence_of_element_located((By.TAG_NAME, 'ul')))
         html = self.driver.page_source
         self.count += 1
         if self.count == self.limit:
-            self.create_driver()
-            print('重启浏览器')
+            self.delete_driver()
+            #time.sleep(2)
         return html
     
 
+#driver.delete_driver()
+#dd = driver.get_page(ip)
