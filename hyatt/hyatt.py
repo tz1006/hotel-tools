@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 from urllib.parse import urlencode
 
 from webdriver import webdriver
-driver = webdriver(5)
+driver = webdriver(15)
 #driver = webdriver.Chrome('./chromedriver')
 #js = r"Object.defineProperty(navigator, 'webdriver', {get: () => undefined,});"                           
 #driver.execute_script(js)
@@ -99,9 +99,11 @@ l = cn_hotels_list()
 for i in l:
     name = i['name']
     code = i['code']
-    price = quote_price(code, '2019-05-08', promo=True)
-    print(price, name)
-    print('None', name)
+    try:
+        price = quote_price(code, '2019-05-08', promo=True)
+        print(price, name)
+    except:
+        print('None', name)
     time.sleep(0)
 
  
