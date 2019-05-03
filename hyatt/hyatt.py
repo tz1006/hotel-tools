@@ -5,19 +5,12 @@
 
 import requests
 from datetime import datetime, timedelta
-from selenium import webdriver
 from bs4 import BeautifulSoup
 from urllib.parse import urlencode
 
-from selenium.webdriver import Chrome
-from selenium.webdriver import ChromeOptions
-
-option = ChromeOptions()
-option.add_experimental_option('excludeSwitches', ['enable-automation'])
-driver = Chrome('./chromedriver', options=option)
-
+from webdriver import webdriver
+driver = webdriver()
 #driver = webdriver.Chrome('./chromedriver')
-driver.set_window_size(800, 900)
 #js = r"Object.defineProperty(navigator, 'webdriver', {get: () => undefined,});"                           
 #driver.execute_script(js)
 
@@ -91,8 +84,7 @@ def quote_price(hotel_code, date, promo=False):
     url += urlencode(payload)
     #print(url)
     # soup
-    driver.get(url)
-    html = driver.page_source
+    html = driver.get_page(url)
     soup = BeautifulSoup(html, "html.parser")
     lowest_price_soup = soup.find_all('div', attrs={'class':'b-text_weight-bold rate-pricing'})[0]
     lowest_price = lowest_price_soup.span.get('data-price')
