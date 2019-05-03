@@ -10,8 +10,8 @@ option = ChromeOptions()
 option.add_experimental_option('excludeSwitches', ['enable-automation'])
 
 
-class driver():
-    def __init__(self, limit=10):
+class webdriver():
+    def __init__(self, limit=15):
         self.create_driver()
         self.limit = limit
     def create_driver(self):
@@ -25,6 +25,7 @@ class driver():
             self.create_driver()
             print('重启浏览器')
         self.driver.get(url)
+        self.count += 1
         html = self.driver.page_source
         return html
     
