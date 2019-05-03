@@ -87,6 +87,7 @@ def quote_price(hotel_code, date, promo=False):
     # soup
     html = driver.get_page(url)
     soup = BeautifulSoup(html, "html.parser")
+    #alert = soup.selector('div.m-booking-alert')
     lowest_price_soup = soup.find_all('div', attrs={'class':'b-text_weight-bold rate-pricing'})[0]
     lowest_price = lowest_price_soup.span.get('data-price')
     return lowest_price
