@@ -21,11 +21,11 @@ class webdriver():
     def delete_driver(self):
         self.driver.exit()
     def get_page(self, url):
+        self.driver.get(url)
+        html = self.driver.page_source
+        self.count += 1
         if self.count == self.limit:
             self.create_driver()
             print('重启浏览器')
-        self.driver.get(url)
-        self.count += 1
-        html = self.driver.page_source
         return html
     
