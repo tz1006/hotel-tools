@@ -101,7 +101,7 @@ proxyauth_plugin_path = create_proxyauth_extension(
     proxy_host = 'http-dyn.abuyun.com',
     proxy_port = 9020,
     proxy_username = 'H557HX96M9Y0G15D',
-    proxy_password = '8370941EDCC9ED02'
+    proxy_password = '8370941EDCC9ED2'
 )
 
 
