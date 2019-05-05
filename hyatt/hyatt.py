@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*- 
 # filename: hiltoncode.py
 
-
+import os
 import time
 import json
 from pprint import pprint
@@ -141,6 +141,10 @@ def download(date):
 
 
 def save_json(date, d):
+    #dir
+    if not os.path.exists('data'):
+        os.makedirs('data')
+    # save_json
     path = 'data/%s.json' % date
     with open(path, 'w') as f:
         content = json.dumps(d)
