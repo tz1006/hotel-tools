@@ -1,0 +1,7 @@
+requests
+tqmd
+datetime
+BeautifulSoup4
+flask
+pprint
+selenium
