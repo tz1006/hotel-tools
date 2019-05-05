@@ -2,14 +2,16 @@
 # -*- coding: UTF-8 -*- 
 # filename: hiltoncode.py
 
+
 import time
+import json
 import requests
 from datetime import datetime, timedelta
 from bs4 import BeautifulSoup
 from urllib.parse import urlencode
 
 from webdriver import webdriver
-driver = webdriver(15)
+driver = webdriver(100)
 #driver = webdriver.Chrome('./chromedriver')
 #js = r"Object.defineProperty(navigator, 'webdriver', {get: () => undefined,});"                           
 #driver.execute_script(js)
@@ -65,13 +67,13 @@ def cn_hotels_list():
     return hotel_list
 
 
-def quote_price(hotel_code, date, promo=False):
-    change = 1
-    offercode = ''
-    if promo:
+def quote_price(hotel_code, date, CUP=False):
+    if CUP:
         offercode = 'CUP19'
-        change = 3
-    checkoutdate = datechange(date, change)
+        checkoutdate = datechange(date, 3)
+    else:
+        offercode = ''
+        checkoutdate = datechange(date, 1)
     # url
     url = 'https://www.hyatt.com/zh-CN/shop/rates/%s?' % hotel_code
     payload = {'rooms': 1,
@@ -85,29 +87,62 @@ def quote_price(hotel_code, date, promo=False):
     #print(url)
     # soup
     html = driver.get_page(url)
-    soup = BeautifulSoup(html, "html.parser")
-    #alert = soup.selector('div.m-booking-alert')
-    lowest_price_soup = soup.find_all('div', attrs={'class':'b-text_weight-bold rate-pricing'})[0]
-    lowest_price = lowest_price_soup.span.get('data-price')
-    return lowest_price
-
+    if html == None:
+        price = False
+        currency = None
+    else:
+        soup = BeautifulSoup(html, "html.parser")
+        #alert = soup.selector('div.m-booking-alert')
+        alert = soup.find_all('div', attrs={'class':'m-booking-alert'})
+        if CUP and len(alert) == 1:
+            price = None
+        else:
+            price_soup = soup.find_all('div', attrs={'class':'b-text_weight-bold rate-pricing'})[0]
+            price = int(price_soup.span.get('data-price'))
+            currency = price_soup.find_all('span')[1].text
+    # CUP
+    if CUP:
+        return price
+    else:
+        return price, currency
 
 
 
 l = cn_hotels_list()
 
-for i in l:
+all = []
+for i in l[-1:]:
+    date = '2019-05-08'
     name = i['name']
     code = i['code']
-    try:
-        price = quote_price(code, '2019-05-08', promo=True)
+    price, currency = quote_price(code, date, CUP=False)
+    if price != False:
+        price = int(price * 1.16)
+        CUP_price = quote_price(code, date, CUP=True)
         print(price, name)
-    except:
-        print('None', name)
-    time.sleep(0)
+    # 税后
+    if CUP_price != None and CUP_price != False:
+        CUP_price = int(CUP_price * 1.16)
+        Total_CUP_price = CUP_price * 3
+    d = {'date': date,
+         'name': name,
+         'price': price,
+         'CUP_price': CUP_price,
+         'Total_CUP_price': Total_CUP_price,
+         'currency': currency
+         }
+    all.append(d)
 
- 
 
+def save_json(date, d):
+    path = 'data/%s.json' % date
+    with open(path, 'w') as f:
+        content = json.dumps(d)
+        f.write(content)
+    print(path)
+
+
+save_json(date, d)
 
 #a = quote_price('jjnye','2019-05-16')
 
