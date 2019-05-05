@@ -12,7 +12,7 @@ app = Flask(__name__)
 def index():
     path = 'data/%s' % date
     with open(path, 'r') as f:
-        data = json.load(f)
+        data = json.loads(f)
     return render_template('template.html', date=date, data=data)
 
 
