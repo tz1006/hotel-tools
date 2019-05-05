@@ -135,7 +135,16 @@ class webdriver():
         self.create_driver()
         print('重启浏览器')
     def get_page(self, url):
-        self.driver.get(url)
+        load_count = 0
+        while load_count <= 3:
+            load_count += 1
+            try:
+                self.driver.get(url)
+                break
+            except:
+                if load_count == 4:
+                    html = False
+                    return html
         #WebDriverWait(self.driver, 1).until(EC.url_changes(url))
         try:
             WebDriverWait(self.driver, 3).until(EC.presence_of_element_located((By.TAG_NAME, 'ul')))
