@@ -5,6 +5,7 @@
 
 import time
 import json
+from pprint import pprint
 from tqdm import tqdm
 import requests
 from datetime import datetime, timedelta
@@ -117,11 +118,12 @@ def download(date):
         if price != False:
             price = int(price * 1.16)
             CUP_price = quote_price(code, date, CUP=True)
-            print(price, name)
         # 税后
         if CUP_price != None and CUP_price != False:
             CUP_price = int(CUP_price * 1.16)
             Total_CUP_price = CUP_price * 3
+        else:
+            Total_CUP_price = CUP_price
         d = {'date': date,
              'name': name,
              'price': price,
@@ -129,6 +131,7 @@ def download(date):
              'Total_CUP_price': Total_CUP_price,
              'currency': currency
              }
+        pprint(d)
         data.append(d)
     save_json(date, data)
 
@@ -145,6 +148,7 @@ def save_json(date, d):
 if __name__ == '__main__':
     hotels_list = cn_hotels_list()
     driver = webdriver(1000)
+    #download('2019-05-08')
     import code
     code.interact(banner="", local=locals())
 
