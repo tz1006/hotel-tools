@@ -11,20 +11,21 @@
     <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-<p>日期：{ date }</p>
-	<hr />
-  
+
+<div class="container">
+<h2>{{date}}</h2>
+<hr />
 <p>以下价格均为含税价</p>
-<table>
+<table class="table">
     <thead>
-    <th>酒店名</th>
-    <th>最低价</th>
-    <th>住三送二</th>
-    <th>货币单位</th>
+    <th scope="col">酒店名</th>
+    <th scope="col">最低价</th>
+    <th scope="col">住三送二</th>
+    <th scope="col">货币单位</th>
     </thead>
     <tbody>
         <meta charset="UTF-8">
-        {% for hotel in data %}
+        {% for hotel in hotels %}
         <tr>
             <td>{{ hotel.name}}</td>
             <td>{{ hotel.price}}</td>
@@ -34,6 +35,6 @@
       {% endfor %}
     </tbody>
 </table>
- 
+</div>
 </body>
 </html>
