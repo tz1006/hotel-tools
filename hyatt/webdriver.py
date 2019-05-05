@@ -121,12 +121,14 @@ option.add_extension(proxyauth_plugin_path)
 
 
 class webdriver():
-    def __init__(self, limit=15):
+    def __init__(self, limit=15, timeout=30):
         self.create_driver()
         self.limit = limit
+        self.timeout = timeout
     def create_driver(self):
         self.driver = Chrome('./chromedriver', options=option)
         self.driver.set_window_size(800, 900)
+        self.driver.set_page_load_timeout(self.timeout)
         self.count = 0
     def delete_driver(self):
         self.driver.quit()
