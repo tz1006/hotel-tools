@@ -37,6 +37,7 @@ def get_cn_hotels():
                'categories': '',
                'brands': ''}
     url += urlencode(payload)
+    #headers = {Accept-Language': en,zh-CN}
     #print(url)
     # soup
     with requests.session() as s:
