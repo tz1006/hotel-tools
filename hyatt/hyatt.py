@@ -89,7 +89,10 @@ def quote_price(hotel_code, date, CUP=False):
     # soup
     html = driver.get_page(url)
     if html == None:
-        price = False
+        price = True
+        currency = None
+    elif html == False:
+        price = None
         currency = None
     else:
         soup = BeautifulSoup(html, "html.parser")
@@ -115,7 +118,7 @@ def download(date):
         name = i['name']
         code = i['code']
         price, currency = quote_price(code, date, CUP=False)
-        if price != False:
+        if price != False and price != False:
             price = int(price * 1.16)
             CUP_price = quote_price(code, date, CUP=True)
         # 税后
@@ -147,8 +150,8 @@ def save_json(date, d):
 
 if __name__ == '__main__':
     hotels_list = cn_hotels_list()
-    driver = webdriver(1000)
-    #download('2019-05-08')
+    driver = webdriver(1000, 20)
+    download('2019-05-08')
     import code
     code.interact(banner="", local=locals())
 
