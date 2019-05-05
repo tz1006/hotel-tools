@@ -128,7 +128,10 @@ def download(date):
             if type(CUP_price) == type(1):
                 CUP_price = int(CUP_price * 1.16)
                 Total_CUP_price = CUP_price * 3
+            else:
+                Total_CUP_price = CUP_price
         else:
+            CUP_price = price
             Total_CUP_price = CUP_price
         d = {'date': date,
              'name': name,
