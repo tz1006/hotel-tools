@@ -135,7 +135,7 @@ class webdriver():
         self.create_driver()
         print('重启浏览器')
     def get_page(self, url):
-        self.driver.delete_all_cookies()
+        #self.driver.delete_all_cookies()
         load_count = 0
         while load_count <= 3:
             load_count += 1
