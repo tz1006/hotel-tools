@@ -5,13 +5,13 @@
 
 import time
 import json
+from tqdm import tqdm
 import requests
 from datetime import datetime, timedelta
 from bs4 import BeautifulSoup
 from urllib.parse import urlencode
 
 from webdriver import webdriver
-driver = webdriver(100)
 #driver = webdriver.Chrome('./chromedriver')
 #js = r"Object.defineProperty(navigator, 'webdriver', {get: () => undefined,});"                           
 #driver.execute_script(js)
@@ -108,30 +108,30 @@ def quote_price(hotel_code, date, CUP=False):
 
 
 
-l = cn_hotels_list()
+def download(date):
+    data = []
+    for i in tqdm(hotels_list):
+        name = i['name']
+        code = i['code']
+        price, currency = quote_price(code, date, CUP=False)
+        if price != False:
+            price = int(price * 1.16)
+            CUP_price = quote_price(code, date, CUP=True)
+            print(price, name)
+        # 税后
+        if CUP_price != None and CUP_price != False:
+            CUP_price = int(CUP_price * 1.16)
+            Total_CUP_price = CUP_price * 3
+        d = {'date': date,
+             'name': name,
+             'price': price,
+             'CUP_price': CUP_price,
+             'Total_CUP_price': Total_CUP_price,
+             'currency': currency
+             }
+        data.append(d)
+    save_json(date, data)
 
-all = []
-for i in l[-1:]:
-    date = '2019-05-08'
-    name = i['name']
-    code = i['code']
-    price, currency = quote_price(code, date, CUP=False)
-    if price != False:
-        price = int(price * 1.16)
-        CUP_price = quote_price(code, date, CUP=True)
-        print(price, name)
-    # 税后
-    if CUP_price != None and CUP_price != False:
-        CUP_price = int(CUP_price * 1.16)
-        Total_CUP_price = CUP_price * 3
-    d = {'date': date,
-         'name': name,
-         'price': price,
-         'CUP_price': CUP_price,
-         'Total_CUP_price': Total_CUP_price,
-         'currency': currency
-         }
-    all.append(d)
 
 
 def save_json(date, d):
@@ -142,7 +142,13 @@ def save_json(date, d):
     print(path)
 
 
-save_json(date, d)
+if __name__ == '__main__':
+    hotels_list = cn_hotels_list()
+    driver = webdriver(1000)
+    import code
+    code.interact(banner="", local=locals())
+
+
 
 #a = quote_price('jjnye','2019-05-16')
 
