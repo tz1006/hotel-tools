@@ -13,9 +13,7 @@ def index():
     path = 'data/%s' % date
     with open(path, 'r') as f:
         data = json.load(f)
-    regular_pirce = data[0]
-    cup_pirce = data[1]
-    return render_template('template.html', date=date, regular_pirce=regular_pirce, cup_pirce=cup_pirce)
+    return render_template('template.html', date=date, data=data)
 
 
 
