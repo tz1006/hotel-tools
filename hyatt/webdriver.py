@@ -121,7 +121,7 @@ option.add_extension(proxyauth_plugin_path)
 
 
 class webdriver():
-    def __init__(self, limit=15, timeout=30):
+    def __init__(self, limit=15, timeout=10):
         self.limit = limit
         self.timeout = timeout
         self.create_driver()
