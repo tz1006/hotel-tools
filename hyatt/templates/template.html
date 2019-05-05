@@ -21,6 +21,7 @@
     <th scope="col">酒店名</th>
     <th scope="col">最低价</th>
     <th scope="col">住三送二</th>
+    <th scope="col">住三送二总价</th>
     <th scope="col">货币单位</th>
     </thead>
     <tbody>
@@ -29,7 +30,8 @@
         <tr>
             <td>{{ hotel.name}}</td>
             <td>{{ hotel.price}}</td>
-            <td>{{ hotel.cup_price}}</td>
+            <td>{{ hotel.CUP_price}}</td>
+            <td>{{ hotel.Total_CUP_price}}</td>
             <td>{{ hotel.currency}}</td>
         </tr>
       {% endfor %}
