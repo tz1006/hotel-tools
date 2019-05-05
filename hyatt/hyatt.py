@@ -95,15 +95,19 @@ def quote_price(hotel_code, date, CUP=False):
         price = None
         currency = None
     else:
-        soup = BeautifulSoup(html, "html.parser")
-        #alert = soup.selector('div.m-booking-alert')
-        alert = soup.find_all('div', attrs={'class':'m-booking-alert'})
-        if CUP and len(alert) == 1:
-            price = None
-        else:
-            price_soup = soup.find_all('div', attrs={'class':'b-text_weight-bold rate-pricing'})[0]
-            price = int(price_soup.span.get('data-price'))
-            currency = price_soup.find_all('span')[1].text
+        try:
+            soup = BeautifulSoup(html, "html.parser")
+            #alert = soup.selector('div.m-booking-alert')
+            alert = soup.find_all('div', attrs={'class':'m-booking-alert'})
+            if CUP and len(alert) == 1:
+                price = None
+            else:
+                price_soup = soup.find_all('div', attrs={'class':'b-text_weight-bold rate-pricing'})[0]
+                price = int(price_soup.span.get('data-price'))
+                currency = price_soup.find_all('span')[1].text
+        except:
+            price = True
+            currency = None
     # CUP
     if CUP:
         return price
