@@ -158,7 +158,7 @@ def save_json(date, d):
 
 if __name__ == '__main__':
     hotels_list = cn_hotels_list()
-    driver = webdriver(10, 10)
+    driver = webdriver(10, 50)
     download('2019-05-08')
     import code
     code.interact(banner="", local=locals())
