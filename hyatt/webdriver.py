@@ -107,7 +107,7 @@ proxyauth_plugin_path = create_proxyauth_extension(
     proxy_host = 'http-dyn.abuyun.com',
     proxy_port = 9020,
     proxy_username = 'H557HX96M9Y0G15D',
-    proxy_password = '8370941EDCC9ED2'
+    proxy_password = '8370941EDCC9ED02'
 )
 
 
@@ -135,12 +135,15 @@ class webdriver():
     def get_page(self, url):
         self.driver.get(url)
         #WebDriverWait(self.driver, 1).until(EC.url_changes(url))
-        WebDriverWait(self.driver, 3).until(EC.presence_of_element_located((By.TAG_NAME, 'ul')))
-        html = self.driver.page_source
+        try:
+            WebDriverWait(self.driver, 3).until(EC.presence_of_element_located((By.TAG_NAME, 'ul')))
+            html = self.driver.page_source
+        except:
+            html = None
         self.count += 1
         if self.count == self.limit:
             self.delete_driver()
-            #time.sleep(2)
+            time.sleep(2)
         return html
     
 
