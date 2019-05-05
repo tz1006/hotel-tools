@@ -125,10 +125,9 @@ def download(date):
         if type(price) == type(1):
             price = int(price * 1.16)
             CUP_price = quote_price(code, date, CUP=True)
-        # 税后
-        if type(CUP_price) == type(1):
-            CUP_price = int(CUP_price * 1.16)
-            Total_CUP_price = CUP_price * 3
+            if type(CUP_price) == type(1):
+                CUP_price = int(CUP_price * 1.16)
+                Total_CUP_price = CUP_price * 3
         else:
             Total_CUP_price = CUP_price
         d = {'date': date,
@@ -158,7 +157,7 @@ def save_json(date, d):
 
 if __name__ == '__main__':
     hotels_list = cn_hotels_list()
-    driver = webdriver(10, 50)
+    driver = webdriver(100, 50)
     download('2019-05-08')
     import code
     code.interact(banner="", local=locals())
