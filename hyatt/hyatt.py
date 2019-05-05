@@ -122,11 +122,11 @@ def download(date):
         name = i['name']
         code = i['code']
         price, currency = quote_price(code, date, CUP=False)
-        if price != False and price != False:
+        if type(price) == type(1):
             price = int(price * 1.16)
             CUP_price = quote_price(code, date, CUP=True)
         # 税后
-        if CUP_price != None and CUP_price != False:
+        if type(CUP_price) == type(1):
             CUP_price = int(CUP_price * 1.16)
             Total_CUP_price = CUP_price * 3
         else:
